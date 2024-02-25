@@ -5,6 +5,7 @@
  */
 package propertymodifier.beans;
 
+import propertymodifier.editors.base.ConsumerVoid;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -12,22 +13,23 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
-import propertymodifier.beans.light.MPropertyDescriptor;
+import propertymodifier.beans.light.PropertyDescriptor;
+import propertymodifier.editors.base.AbstractBeanPropertyItem;
 
 /**
  *
  * @author user
  */
-public final class MBeanProperty implements MBeanPropertyItem{
+public final class BeanProperty implements AbstractBeanPropertyItem{
     public static final String CATEGORY_LABEL_KEY = "propertysheet.item.category.label";
     
     private final Object bean;
-    private final MPropertyDescriptor beanPropertyDescriptor; //contains read and write method
+    private final PropertyDescriptor beanPropertyDescriptor; //contains read and write method
     private boolean editable = true;
     private Optional<ObservableValue<? extends Object>> observableValue = Optional.empty();
-    private final MConsumerVoid consume;
+    private final ConsumerVoid consume;
     
-    public MBeanProperty(final Object bean, final MPropertyDescriptor propertyDescriptor, MConsumerVoid consume)
+    public BeanProperty(final Object bean, final PropertyDescriptor propertyDescriptor, ConsumerVoid consume)
     {
         this.bean = bean;
         this.beanPropertyDescriptor = propertyDescriptor;
@@ -48,7 +50,7 @@ public final class MBeanProperty implements MBeanPropertyItem{
                 if(consume != null)
                     consume.call();
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {                
-                Logger.getLogger(MBeanProperty.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(BeanProperty.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
@@ -84,7 +86,7 @@ public final class MBeanProperty implements MBeanPropertyItem{
         }
     }
     
-    public MPropertyDescriptor getPropertyDescriptor() {
+    public PropertyDescriptor getPropertyDescriptor() {
         return this.beanPropertyDescriptor;
     }
     
@@ -133,7 +135,7 @@ public final class MBeanProperty implements MBeanPropertyItem{
 
     @Override
     public String getCategory() {
-        String category = (String) this.beanPropertyDescriptor.getValue(MBeanProperty.CATEGORY_LABEL_KEY);
+        String category = (String) this.beanPropertyDescriptor.getValue(BeanProperty.CATEGORY_LABEL_KEY);
 
         /* ControlsFX
         // fall back to default behavior if there is no category provided.

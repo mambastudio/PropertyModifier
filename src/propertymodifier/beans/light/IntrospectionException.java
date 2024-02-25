@@ -9,8 +9,6 @@ package propertymodifier.beans.light;
  *
  * @author user
  */
-public interface MBeanInfo {
-    MBeanDescriptor getBeanDescriptor();
-
-    MPropertyDescriptor[] getPropertyDescriptors();
+public class IntrospectionException extends Exception{
+    
 }

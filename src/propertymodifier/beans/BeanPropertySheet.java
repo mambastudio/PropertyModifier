@@ -16,7 +16,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import propertymodifier.editors.base.MInterfacePropertyEditor;
+import propertymodifier.editors.base.InterfacePropertyEditor;
+import propertymodifier.editors.base.AbstractBeanPropertyItem;
 
 /**
  *
@@ -24,12 +25,12 @@ import propertymodifier.editors.base.MInterfacePropertyEditor;
  * @param <P>
  * @param <E>
  */
-public class MBeanPropertySheet<P extends MBeanPropertyItem, E extends MInterfacePropertyEditor> extends VBox {
+public class BeanPropertySheet<P extends AbstractBeanPropertyItem, E extends InterfacePropertyEditor> extends VBox {
     private Callback<P, E> propertyEditorFactory;
     private static final int MIN_COLUMN_WIDTH = 60;
     private static final int MIN_ROW_HEIGHT = 25;
     
-    public MBeanPropertySheet()
+    public BeanPropertySheet()
     {
        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
     }

@@ -12,12 +12,12 @@ import java.util.Objects;
  *
  * @author user
  */
-public class MPropertyDescriptor extends MFeatureDescriptor {
+public class PropertyDescriptor extends FeatureDescriptor {
     private String _propertyName;
     private Method _readMethod;
     private Method _writeMethod;
 
-    MPropertyDescriptor(String propertyName) {
+    PropertyDescriptor(String propertyName) {
         _propertyName = propertyName;
     }
 
@@ -67,9 +67,9 @@ public class MPropertyDescriptor extends MFeatureDescriptor {
 
     @Override
     public boolean equals(Object object) {
-        boolean result = object instanceof MPropertyDescriptor;
+        boolean result = object instanceof PropertyDescriptor;
         if (result) {
-            MPropertyDescriptor pd = (MPropertyDescriptor) object;
+            PropertyDescriptor pd = (PropertyDescriptor) object;
             boolean gettersAreEqual = (this._readMethod == null)
                 && (pd.getReadMethod() == null) || (this._readMethod != null)
                 && (this._readMethod.equals(pd.getReadMethod()));

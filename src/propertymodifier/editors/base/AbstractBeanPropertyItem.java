@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package propertymodifier.beans;
+package propertymodifier.editors.base;
 
 import java.util.Optional;
 import javafx.beans.value.ObservableValue;
-import propertymodifier.editors.base.MInterfacePropertyEditor;
 
 /**
  *
  * @author user
  * @param <C> consumer
+ * 
+ * Bean encapsulator, where beans are stored for editing (this is not an ui editor)
  */
-public interface MBeanPropertyItem<C> {
+public interface AbstractBeanPropertyItem<C> {
     public Class<?> getType();
        
     public String getCategory();
@@ -29,7 +30,7 @@ public interface MBeanPropertyItem<C> {
 
     public Optional<ObservableValue<? extends Object>> getObservableValue();
 
-    default public Optional<Class<? extends MInterfacePropertyEditor<?>>> getPropertyEditorClass() {
+    default public Optional<Class<? extends InterfacePropertyEditor<?>>> getPropertyEditorClass() {
         return Optional.empty();
     }
 

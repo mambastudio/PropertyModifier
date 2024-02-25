@@ -5,21 +5,23 @@
  */
 package propertymodifier.beans;
 
+import propertymodifier.editors.base.ConsumerVoid;
 import java.util.function.Function;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import propertymodifier.beans.light.MBeanInfo;
-import propertymodifier.beans.light.MIntrospectionException;
-import propertymodifier.beans.light.MIntrospector;
-import propertymodifier.beans.light.MPropertyDescriptor;
+import propertymodifier.beans.light.IntrospectionException;
+import propertymodifier.beans.light.Introspector;
+import propertymodifier.beans.light.PropertyDescriptor;
+import propertymodifier.beans.light.BeanInfo;
+import propertymodifier.editors.base.AbstractBeanPropertyItem;
 
 /**
  *
  * @author user
  */
-public class MBeanPropertyUtility {
+public class BeanPropertyUtility {
     
-    public static ObservableList<MBeanPropertyItem> getProperties(final Object bean, MConsumerVoid consume)
+    public static ObservableList<AbstractBeanPropertyItem> getProperties(final Object bean, ConsumerVoid consume)
     {
         return getProperties(
                 bean, 
@@ -38,25 +40,25 @@ public class MBeanPropertyUtility {
                 consume);
     }
     
-    public static ObservableList<MBeanPropertyItem> getProperties(final Object bean, final Function<String, String> displayNameCall, MConsumerVoid consume)
+    public static ObservableList<AbstractBeanPropertyItem> getProperties(final Object bean, final Function<String, String> displayNameCall, ConsumerVoid consume)
     {
        // return getProperties(bean, (p)->{return true;});
-        ObservableList<MBeanPropertyItem> list = FXCollections.observableArrayList();
+        ObservableList<AbstractBeanPropertyItem> list = FXCollections.observableArrayList();
         try {
-            MBeanInfo beanInfo = MIntrospector.getBeanInfo(bean.getClass(), Object.class);
-            for (MPropertyDescriptor p : beanInfo.getPropertyDescriptors()) {     
+            BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), Object.class);
+            for (PropertyDescriptor p : beanInfo.getPropertyDescriptors()) {     
                 //custom display name if any
                 String displayName = displayNameCall.apply(p.getName());
                 p.setDisplayName(displayName);
                 
                 //init bean property
-                MBeanProperty property = new MBeanProperty(bean, p, consume);
+                BeanProperty property = new BeanProperty(bean, p, consume);
                 if(property.isObservable() && property.isEditable())
                 {                            
                     list.add(property);
                 }                
             }
-         } catch (MIntrospectionException e) {
+         } catch (IntrospectionException e) {
             System.err.println(e);
         }
         //Collections.reverse(list);
