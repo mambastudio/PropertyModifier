@@ -5,6 +5,7 @@
  */
 package propertymodifier.editors;
 
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
@@ -23,25 +25,25 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-import propertymodifier.beans.MBeanPropertyItem;
-import propertymodifier.editors.base.MAbstractPropertyEditor;
-import propertymodifier.editors.base.MInterfacePropertyEditor;
+import propertymodifier.editors.base.AbstractPropertyEditor;
+import propertymodifier.editors.base.InterfacePropertyEditor;
+import propertymodifier.editors.base.AbstractBeanPropertyItem;
 
 /**
  *
  * @author user
  */
-public class MEditors {
-    private MEditors()
+public class Editors {
+    private Editors()
     {
         
     }
     
-    public static final MInterfacePropertyEditor<?> createNumericEditor(MBeanPropertyItem propertyItem) {
+    public static final InterfacePropertyEditor<?> createNumericEditor(AbstractBeanPropertyItem propertyItem) {
         
-        return new MAbstractPropertyEditor<Number, MNumericField>(
+        return new AbstractPropertyEditor<Number, NumericField>(
                 propertyItem, 
-                new MNumericField( (Class<? extends Number>) propertyItem.getType())) 
+                new NumericField( (Class<? extends Number>) propertyItem.getType())) 
                 {                           
                     @Override
                     protected ObservableValue<Number> getEditorObservableValue() {
@@ -56,9 +58,9 @@ public class MEditors {
                 };
     }
     
-    public static final MInterfacePropertyEditor<?> createColorEditor(MBeanPropertyItem propertyItem) {
+    public static final InterfacePropertyEditor<?> createColorEditor(AbstractBeanPropertyItem propertyItem) {
         
-        return new MAbstractPropertyEditor<Color, ColorPicker>(
+        return new AbstractPropertyEditor<Color, ColorPicker>(
                 propertyItem, 
                 new ColorPicker()) 
                 {                           
@@ -74,9 +76,27 @@ public class MEditors {
                 };
     }
     
-    public static final MInterfacePropertyEditor<?> createBooleanEditor(MBeanPropertyItem propertyItem) {
+    public static final InterfacePropertyEditor<?> createStringEditor(AbstractBeanPropertyItem propertyItem) {
         
-        return new MAbstractPropertyEditor<Boolean, CheckBox>(
+        return new AbstractPropertyEditor<String, TextField>(
+                propertyItem, 
+                new TextField()) 
+                {                           
+                    @Override
+                    protected StringProperty getEditorObservableValue() {
+                        return getEditor().textProperty();
+                    }
+                    
+                    @Override
+                    public void initEditorValue() {                        
+                        getEditor().setText(this.getPropertyValue());                        
+                    }
+                };
+    }
+    
+    public static final InterfacePropertyEditor<?> createBooleanEditor(AbstractBeanPropertyItem propertyItem) {
+        
+        return new AbstractPropertyEditor<Boolean, CheckBox>(
                 propertyItem, 
                 new CheckBox()) 
                 {                  
@@ -93,11 +113,11 @@ public class MEditors {
                 };
     }
     
-    public static final MInterfacePropertyEditor<?> createEnumEditor(MBeanPropertyItem propertyItem) {
+    public static final InterfacePropertyEditor<?> createEnumEditor(AbstractBeanPropertyItem propertyItem) {
         Enum enumValue = (Enum) propertyItem.getValue();
         ObservableList<Enum> enumValueList = FXCollections.observableArrayList(enumValue.getClass().getEnumConstants());        
         
-        return new MAbstractPropertyEditor<Enum, ComboBox>(
+        return new AbstractPropertyEditor<Enum, ComboBox>(
                 propertyItem, 
                 new ComboBox(enumValueList)) 
                 {                           
@@ -113,7 +133,7 @@ public class MEditors {
                 };
     }
     
-    public static final MInterfacePropertyEditor<?> createEffectEditor(MBeanPropertyItem propertyItem) {
+    public static final InterfacePropertyEditor<?> createEffectEditor(AbstractBeanPropertyItem propertyItem) {
         ObservableList<Effect> effectValueList = FXCollections.observableArrayList();        
         effectValueList.add(new DropShadow());
         effectValueList.add(new BoxBlur());
@@ -150,7 +170,7 @@ public class MEditors {
         hbox.setSpacing(5);
         HBox.setHgrow(comboBox, Priority.ALWAYS);
                 
-        return new MAbstractPropertyEditor<Effect, HBox>(
+        return new AbstractPropertyEditor<Effect, HBox>(
                 propertyItem, 
                 hbox) 
                 {                           

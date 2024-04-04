@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author user
  */
-public abstract class MFeatureDescriptor {
+public abstract class FeatureDescriptor {
     private boolean expert;
     private boolean hidden;
     private String shortDescription;    

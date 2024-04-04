@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author user
  */
-public class MIntrospector {
-    private final static MPropertyDescriptor[] EMPTY_PROPERTIES = new MPropertyDescriptor[0];
+public class Introspector {
+    private final static PropertyDescriptor[] EMPTY_PROPERTIES = new PropertyDescriptor[0];
 
     private static final int DEFAULT_CAPACITY = 128;
 
-    private static final Map<String, MGenericBeanInfo> BEAN_CACHE = new ConcurrentHashMap<>(DEFAULT_CAPACITY);
+    private static final Map<String, GenericBeanInfo> BEAN_CACHE = new ConcurrentHashMap<>(DEFAULT_CAPACITY);
 
     /**
      * Introspect on a Java Bean and learn about all its properties, exposed methods, and events.
@@ -36,7 +36,7 @@ public class MIntrospector {
      * @return A BeanInfo object describing the target bean.
      * @throws mamba.beans.light.MIntrospectionException
      */
-    public static MBeanInfo getBeanInfo(Class<?> beanClass) throws MIntrospectionException {
+    public static BeanInfo getBeanInfo(Class<?> beanClass) throws IntrospectionException {
         return getBeanInfo(beanClass, null);
     }
 
@@ -52,9 +52,9 @@ public class MIntrospector {
      * @return A BeanInfo object describing the target bean.
      * @throws mamba.beans.light.MIntrospectionException
      */
-    public static MBeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass) throws MIntrospectionException {
+    public static BeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass) throws IntrospectionException {
         String beanInfoSignature = _beanInfoSignature(beanClass, stopClass);
-        MGenericBeanInfo beanInfo = BEAN_CACHE.get(beanInfoSignature);
+        GenericBeanInfo beanInfo = BEAN_CACHE.get(beanInfoSignature);
         if (beanInfo == null) {
             beanInfo = _construct(beanClass, stopClass);
             BEAN_CACHE.put(beanInfoSignature, beanInfo);
@@ -120,25 +120,25 @@ public class MIntrospector {
         }
     }
 
-    private static MGenericBeanInfo _construct(Class<?> beanType, Class<?> stopType) {
+    private static GenericBeanInfo _construct(Class<?> beanType, Class<?> stopType) {
         FieldOrderComparator comparator = new FieldOrderComparator();
-        TreeMap<String, MPropertyDescriptor> propsByName = new TreeMap<>(comparator);
+        TreeMap<String, PropertyDescriptor> propsByName = new TreeMap<>(comparator);
 
         _introspect(beanType, stopType, propsByName, comparator);
 
-        MBeanDescriptor beanDescriptor = new MBeanDescriptor(beanType);
+        BeanDescriptor beanDescriptor = new BeanDescriptor(beanType);
 
-        MPropertyDescriptor[] propertyDescriptors;
+        PropertyDescriptor[] propertyDescriptors;
         if (propsByName.isEmpty()) {
             propertyDescriptors = EMPTY_PROPERTIES;
         } else {
-            propertyDescriptors = propsByName.values().toArray(new MPropertyDescriptor[propsByName.size()]);
+            propertyDescriptors = propsByName.values().toArray(new PropertyDescriptor[propsByName.size()]);
         }
 
-        return new MGenericBeanInfo(beanDescriptor, propertyDescriptors);
+        return new GenericBeanInfo(beanDescriptor, propertyDescriptors);
     }
 
-    private static void _introspect(Class<?> currType, Class<?> stopType, Map<String, MPropertyDescriptor> props, FieldOrderComparator comparator) {
+    private static void _introspect(Class<?> currType, Class<?> stopType, Map<String, PropertyDescriptor> props, FieldOrderComparator comparator) {
         if (currType == null) {
             return;
         }
@@ -208,10 +208,10 @@ public class MIntrospector {
 
     }
 
-    private static MPropertyDescriptor _prop(Map<String, MPropertyDescriptor> props, String name) {
-        MPropertyDescriptor prop = props.get(name);
+    private static PropertyDescriptor _prop(Map<String, PropertyDescriptor> props, String name) {
+        PropertyDescriptor prop = props.get(name);
         if (prop == null) {
-            prop = new MPropertyDescriptor(name);
+            prop = new PropertyDescriptor(name);
             props.put(name, prop);
         }
         return prop;

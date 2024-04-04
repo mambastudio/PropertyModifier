@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package propertymodifier.beans.light;
+package propertymodifier.editors.base;
 
 /**
  *
  * @author user
+ * @param <P>
+ * @param <E>
  */
-public class MIntrospectionException extends Exception{
+public class InterfacePropertySheet<P extends AbstractBeanPropertyItem, E extends InterfacePropertyEditor> {
     
 }

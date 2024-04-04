@@ -23,11 +23,11 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class MNumericField extends TextField
+public class NumericField extends TextField
 {
     private final NumberExpression value;
     
-    public MNumericField(Class<? extends Number> cls)
+    public NumericField(Class<? extends Number> cls)
     {
         super();
         

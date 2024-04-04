@@ -11,11 +11,11 @@ import java.lang.ref.WeakReference;
  *
  * @author user
  */
-public final class MBeanDescriptor extends MFeatureDescriptor {
+public final class BeanDescriptor extends FeatureDescriptor {
     private String _beanName;
     private final WeakReference<Class<?>> _beanClass;
 
-    MBeanDescriptor(Class<?> beanClass) {
+    BeanDescriptor(Class<?> beanClass) {
         _beanName = beanClass.getSimpleName();
         _beanClass = new WeakReference<>(beanClass);
     }

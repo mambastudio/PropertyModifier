@@ -9,22 +9,22 @@ package propertymodifier.beans.light;
  *
  * @author user
  */
-public class MGenericBeanInfo implements MBeanInfo{
-    protected final MBeanDescriptor _bean;
-    protected final MPropertyDescriptor[] _properties;
+public class GenericBeanInfo implements BeanInfo{
+    protected final BeanDescriptor _bean;
+    protected final PropertyDescriptor[] _properties;
 
-    MGenericBeanInfo(MBeanDescriptor bean, MPropertyDescriptor[] properties) {
+    GenericBeanInfo(BeanDescriptor bean, PropertyDescriptor[] properties) {
         _bean = bean;
         _properties = properties;
     }
 
     @Override
-    public MBeanDescriptor getBeanDescriptor() {
+    public BeanDescriptor getBeanDescriptor() {
         return _bean;
     }
 
     @Override
-    public MPropertyDescriptor[] getPropertyDescriptors() {
+    public PropertyDescriptor[] getPropertyDescriptors() {
         return _properties;
     }
 }

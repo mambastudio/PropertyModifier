@@ -17,12 +17,12 @@ import javafx.scene.layout.Priority;
  * @author user
  * @param <T>
  */
-public abstract class MAbstractObjectField<T> extends HBox {
+public abstract class AbstractObjectField<T> extends HBox {
     private final TextField textField = new TextField();
 
     private ObjectProperty<T> objectProperty = new SimpleObjectProperty<>();
 
-    public MAbstractObjectField() {
+    public AbstractObjectField() {
         super(1);
         textField.setEditable(false);
         textField.setFocusTraversable(false);

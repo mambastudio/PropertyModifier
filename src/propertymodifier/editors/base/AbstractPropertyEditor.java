@@ -7,7 +7,6 @@ package propertymodifier.editors.base;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
-import propertymodifier.beans.MBeanPropertyItem;
 
 /**
  *
@@ -15,11 +14,11 @@ import propertymodifier.beans.MBeanPropertyItem;
  * @param <T>
  * @param <C>
  */
-public abstract class MAbstractPropertyEditor<T, C extends Node> implements MInterfacePropertyEditor<T> {
-    private final MBeanPropertyItem property;
+public abstract class AbstractPropertyEditor<T, C extends Node> implements InterfacePropertyEditor<T> {
+    private final AbstractBeanPropertyItem property;
     private final C control;    
        
-    public MAbstractPropertyEditor(MBeanPropertyItem property, C control) 
+    public AbstractPropertyEditor(AbstractBeanPropertyItem property, C control) 
     {        
         this.control = control;
         this.property = property;
@@ -33,7 +32,7 @@ public abstract class MAbstractPropertyEditor<T, C extends Node> implements MInt
     
     protected abstract ObservableValue<T> getEditorObservableValue();
    
-    public final MBeanPropertyItem getMBeanProperty() {
+    public final AbstractBeanPropertyItem getMBeanProperty() {
         return property;
     }
      
@@ -45,7 +44,6 @@ public abstract class MAbstractPropertyEditor<T, C extends Node> implements MInt
     @Override
     public void setPropertyValue(T value) {
         getMBeanProperty().setValue(value);
-
     } 
     
     @Override     

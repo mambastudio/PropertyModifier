@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package propertymodifier.beans;
+package propertymodifier.editors.base;
 
 /**
  *
  * @author user
  */
-public interface MConsumerVoid {
+public interface ConsumerVoid {
     public void call();
 }

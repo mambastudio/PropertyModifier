@@ -3,38 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package propertymodifier.editors;
+package propertymodifier.editors.factory;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import propertymodifier.beans.MBeanPropertyItem;
-import propertymodifier.editors.base.MInterfacePropertyEditor;
+import propertymodifier.editors.Editors;
+import propertymodifier.editors.base.InterfacePropertyEditor;
+import propertymodifier.editors.base.AbstractBeanPropertyItem;
 
 /**
  *
  * @author user
  */
-public class MDefaultEditorFactory implements Callback<MBeanPropertyItem, MInterfacePropertyEditor<?>> {
+public class DefaultEditorFactory implements Callback<AbstractBeanPropertyItem, InterfacePropertyEditor<?>> {
     
     @Override
-    public MInterfacePropertyEditor<?> call(MBeanPropertyItem item) {
+    public InterfacePropertyEditor<?> call(AbstractBeanPropertyItem item) {
         Class<?> type = item.getType();
         
          
         if (isNumber(type))
-            return MEditors.createNumericEditor(item);        
+            return Editors.createNumericEditor(item);        
         else if(type == Color.class)
-            return MEditors.createColorEditor(item);        
+            return Editors.createColorEditor(item);        
         else if(Enum.class.isAssignableFrom(type))        
-            return MEditors.createEnumEditor(item);       
-        else if(Effect.class.isAssignableFrom(type))        
-            return MEditors.createEffectEditor(item);      
+            return Editors.createEnumEditor(item);     
         else if(isBoolean(type))
-            return MEditors.createBooleanEditor(item);      
-        
+            return Editors.createBooleanEditor(item);      
+        else if(type == String.class)
+            return Editors.createStringEditor(item);
         return null; 
     }
     
