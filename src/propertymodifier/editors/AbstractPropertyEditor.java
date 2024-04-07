@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package propertymodifier.editors.base;
+package propertymodifier.editors;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
+import propertymodifier.editors.base.PropertyEditor;
+import propertymodifier.editors.base.PropertyItem;
 
 /**
  *
@@ -14,11 +16,11 @@ import javafx.scene.Node;
  * @param <T>
  * @param <C>
  */
-public abstract class AbstractPropertyEditor<T, C extends Node> implements InterfacePropertyEditor<T> {
-    private final AbstractBeanPropertyItem property;
+public abstract class AbstractPropertyEditor<T, C extends Node> implements PropertyEditor<T> {
+    private final PropertyItem property;
     private final C control;    
        
-    public AbstractPropertyEditor(AbstractBeanPropertyItem property, C control) 
+    public AbstractPropertyEditor(PropertyItem property, C control) 
     {        
         this.control = control;
         this.property = property;
@@ -32,7 +34,7 @@ public abstract class AbstractPropertyEditor<T, C extends Node> implements Inter
     
     protected abstract ObservableValue<T> getEditorObservableValue();
    
-    public final AbstractBeanPropertyItem getMBeanProperty() {
+    public final PropertyItem getMBeanProperty() {
         return property;
     }
      

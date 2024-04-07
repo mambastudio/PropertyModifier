@@ -5,7 +5,6 @@
  */
 package propertymodifier.beans;
 
-import propertymodifier.editors.base.ConsumerVoid;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -14,26 +13,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import propertymodifier.beans.light.PropertyDescriptor;
-import propertymodifier.editors.base.AbstractBeanPropertyItem;
+import propertymodifier.editors.base.PropertyItem;
 
 /**
  *
  * @author user
  */
-public final class BeanProperty implements AbstractBeanPropertyItem{
+public final class DefaultBeanItem implements PropertyItem{
     public static final String CATEGORY_LABEL_KEY = "propertysheet.item.category.label";
     
     private final Object bean;
     private final PropertyDescriptor beanPropertyDescriptor; //contains read and write method
     private boolean editable = true;
     private Optional<ObservableValue<? extends Object>> observableValue = Optional.empty();
-    private final ConsumerVoid consume;
     
-    public BeanProperty(final Object bean, final PropertyDescriptor propertyDescriptor, ConsumerVoid consume)
+    public DefaultBeanItem(final Object bean, final PropertyDescriptor propertyDescriptor)
     {
         this.bean = bean;
         this.beanPropertyDescriptor = propertyDescriptor;
-        this.consume = consume;
         if (this.beanPropertyDescriptor.getWriteMethod() == null) {
             this.setEditable(false);            
         }
@@ -47,10 +44,8 @@ public final class BeanProperty implements AbstractBeanPropertyItem{
         if ( writeMethod != null ) {
             try {
                 writeMethod.invoke(this.bean, value);
-                if(consume != null)
-                    consume.call();
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {                
-                Logger.getLogger(BeanProperty.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(DefaultBeanItem.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
@@ -128,22 +123,13 @@ public final class BeanProperty implements AbstractBeanPropertyItem{
                 this.observableValue = Optional.of((ObservableValue<?>) val);
             }
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            //Logger.getLogger(BeanProperty.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DefaultBeanItem.class.getName()).log(Level.SEVERE, null, ex);
             // ignore it...
         }
     }
 
     @Override
     public String getCategory() {
-        String category = (String) this.beanPropertyDescriptor.getValue(BeanProperty.CATEGORY_LABEL_KEY);
-
-        /* ControlsFX
-        // fall back to default behavior if there is no category provided.
-        if (category == null) {
-            category = Localization.localize(Localization.asKey(this.beanPropertyDescriptor.isExpert()
-                    ? "bean.property.category.expert" : "bean.property.category.basic")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        */
-        return category;
+        return (String) this.beanPropertyDescriptor.getValue(DefaultBeanItem.CATEGORY_LABEL_KEY);
     }
 }

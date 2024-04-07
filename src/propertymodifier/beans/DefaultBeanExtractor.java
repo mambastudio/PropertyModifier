@@ -5,24 +5,23 @@
  */
 package propertymodifier.beans;
 
-import propertymodifier.editors.base.ConsumerVoid;
 import java.util.function.Function;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import propertymodifier.beans.light.BeanInfo;
 import propertymodifier.beans.light.IntrospectionException;
 import propertymodifier.beans.light.Introspector;
 import propertymodifier.beans.light.PropertyDescriptor;
-import propertymodifier.beans.light.BeanInfo;
-import propertymodifier.editors.base.AbstractBeanPropertyItem;
+import propertymodifier.editors.base.PropertyExtractor;
 
 /**
  *
  * @author user
  */
-public class BeanPropertyUtility {
-    
-    public static ObservableList<AbstractBeanPropertyItem> getProperties(final Object bean, ConsumerVoid consume)
-    {
+public class DefaultBeanExtractor implements PropertyExtractor<DefaultBeanItem> {
+
+    @Override
+    public ObservableList<DefaultBeanItem> getProperties(Object bean) {
         return getProperties(
                 bean, 
                 //https://stackoverflow.com/questions/3752636/java-split-string-when-an-uppercase-letter-is-found
@@ -36,14 +35,13 @@ public class BeanPropertyUtility {
                         string.append(str).append(" ");
                     }
                     return string.toString();
-                }, 
-                consume);
+                });
     }
-    
-    public static ObservableList<AbstractBeanPropertyItem> getProperties(final Object bean, final Function<String, String> displayNameCall, ConsumerVoid consume)
-    {
-       // return getProperties(bean, (p)->{return true;});
-        ObservableList<AbstractBeanPropertyItem> list = FXCollections.observableArrayList();
+
+    @Override
+    public ObservableList<DefaultBeanItem> getProperties(Object bean, Function<String, String> displayNameCall) {
+        // return getProperties(bean, (p)->{return true;});
+        ObservableList<DefaultBeanItem> list = FXCollections.observableArrayList();
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), Object.class);
             for (PropertyDescriptor p : beanInfo.getPropertyDescriptors()) {     
@@ -52,7 +50,7 @@ public class BeanPropertyUtility {
                 p.setDisplayName(displayName);
                 
                 //init bean property
-                BeanProperty property = new BeanProperty(bean, p, consume);
+                DefaultBeanItem property = new DefaultBeanItem(bean, p);
                 if(property.isObservable() && property.isEditable())
                 {                            
                     list.add(property);
@@ -63,5 +61,6 @@ public class BeanPropertyUtility {
         }
         //Collections.reverse(list);
         return list;
-    }    
+    }
+    
 }

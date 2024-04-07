@@ -6,7 +6,6 @@
 package propertymodifier.beans;
 
 import java.util.List;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -14,10 +13,13 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import propertymodifier.editors.base.InterfacePropertyEditor;
-import propertymodifier.editors.base.AbstractBeanPropertyItem;
+import propertymodifier.editors.base.PropertyEditor;
+import propertymodifier.editors.base.PropertyExtractor;
+import propertymodifier.editors.base.PropertyItem;
+import propertymodifier.editors.base.PropertySheet;
 
 /**
  *
@@ -25,25 +27,24 @@ import propertymodifier.editors.base.AbstractBeanPropertyItem;
  * @param <P>
  * @param <E>
  */
-public class BeanPropertySheet<P extends AbstractBeanPropertyItem, E extends InterfacePropertyEditor> extends VBox {
+public class BeanPropertySheet<P extends PropertyItem, E extends PropertyEditor> extends VBox implements PropertySheet<P, E> {
     private Callback<P, E> propertyEditorFactory;
+    private PropertyExtractor<P> propertyExtractor;
     private static final int MIN_COLUMN_WIDTH = 60;
     private static final int MIN_ROW_HEIGHT = 25;
     
-    public BeanPropertySheet()
-    {
+    public BeanPropertySheet(PropertyExtractor<P> propertyExtractor, Callback<P, E> propertyEditorFactory)
+    {         
        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+       this.propertyExtractor = propertyExtractor;
+       this.propertyEditorFactory = propertyEditorFactory;   
     }
     
-    public final void init(ObservableList<P> list)
+    public final void init(Object object)
     {
+        List<P> list = propertyExtractor.getProperties(object);
         PropertyPane propertyPane = new PropertyPane(list);
-        getChildren().add(propertyPane);
-    }
-    
-    public final void setFactory(Callback<P, E> callBack)
-    {
-        this.propertyEditorFactory = callBack;
+        getChildren().setAll(propertyPane);
     }
     
     private final class PropertyPane extends GridPane {
@@ -88,16 +89,11 @@ public class BeanPropertySheet<P extends AbstractBeanPropertyItem, E extends Int
                 Node editor = getEditor(item);
                 
                 if(editor != null)
-                {
-                    if (editor instanceof Region) {
-                        ((Region)editor).setMinWidth(MIN_COLUMN_WIDTH);
-                        ((Region)editor).setMaxWidth(Double.MAX_VALUE);
-                        ((Region)editor).setMinHeight(MIN_ROW_HEIGHT);
-                    }
+                {                    
                     label.setLabelFor(editor);               
                     add(editor, 1, row);
                     GridPane.setHgrow(editor, Priority.ALWAYS);
-
+                    
                     //TODO add support for recursive properties                
                    
                 }
