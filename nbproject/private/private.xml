@@ -3,13 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/beans/light/BeanDescriptor.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/beans/light/FeatureDescriptor.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/beans/light/Introspector.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/beans/light/GenericBeanInfo.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/editors/factory/GroupEditorFactory.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/beans/light/PropertyDescriptor.java</file>
-            <file>file:/C:/Users/user/Documents/GitHub/PropertyModifier/src/propertymodifier/editors/factory/DefaultEditorFactory.java</file>
+            <file>file:/C:/Users/jmburu/Documents/GitHub/PropertyModifier/src/propertymodifier/PropertyModifier.java</file>
         </group>
     </open-files>
 </project-private>
