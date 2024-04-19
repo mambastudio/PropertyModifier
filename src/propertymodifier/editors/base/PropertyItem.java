@@ -11,11 +11,8 @@ import javafx.beans.value.ObservableValue;
 /**
  *
  * @author user
- * @param <C> consumer
- * 
- * Bean encapsulator, where beans are stored for editing (this is not an ui editor)
  */
-public interface AbstractBeanPropertyItem<C> {
+public interface PropertyItem {
     public Class<?> getType();
        
     public String getCategory();
@@ -30,7 +27,7 @@ public interface AbstractBeanPropertyItem<C> {
 
     public Optional<ObservableValue<? extends Object>> getObservableValue();
 
-    default public Optional<Class<? extends InterfacePropertyEditor<?>>> getPropertyEditorClass() {
+    default public Optional<Class<? extends PropertyEditor<?>>> getPropertyEditorClass() {
         return Optional.empty();
     }
 

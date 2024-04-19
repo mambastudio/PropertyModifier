@@ -12,7 +12,7 @@ import javafx.scene.Node;
  * @author user
  * @param <T>
  */
-public interface InterfacePropertyEditor<T> {
+public interface PropertyEditor<T> {
     /**
      * Returns the editor responsible for editing this property.
      * @return 

@@ -25,21 +25,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-import propertymodifier.editors.base.AbstractPropertyEditor;
-import propertymodifier.editors.base.InterfacePropertyEditor;
-import propertymodifier.editors.base.AbstractBeanPropertyItem;
+import propertymodifier.editors.base.PropertyEditor;
+import propertymodifier.editors.base.PropertyItem;
 
 /**
  *
  * @author user
  */
-public class Editors {
-    private Editors()
+public class EditorFactory {
+    private EditorFactory()
     {
         
     }
     
-    public static final InterfacePropertyEditor<?> createNumericEditor(AbstractBeanPropertyItem propertyItem) {
+    public static final PropertyEditor<?> createNumericEditor(PropertyItem propertyItem) {
         
         return new AbstractPropertyEditor<Number, NumericField>(
                 propertyItem, 
@@ -58,7 +57,7 @@ public class Editors {
                 };
     }
     
-    public static final InterfacePropertyEditor<?> createColorEditor(AbstractBeanPropertyItem propertyItem) {
+    public static final PropertyEditor<?> createColorEditor(PropertyItem propertyItem) {
         
         return new AbstractPropertyEditor<Color, ColorPicker>(
                 propertyItem, 
@@ -70,17 +69,17 @@ public class Editors {
                     }
                     
                     @Override
-                    public void initEditorValue() {                        
+                    public void initEditorValue() {  
                         getEditor().setValue(this.getPropertyValue());                        
                     }
                 };
     }
     
-    public static final InterfacePropertyEditor<?> createStringEditor(AbstractBeanPropertyItem propertyItem) {
-        
+    public static final PropertyEditor<?> createStringEditor(PropertyItem propertyItem) {
+        TextField field = new TextField();
         return new AbstractPropertyEditor<String, TextField>(
                 propertyItem, 
-                new TextField()) 
+                field) 
                 {                           
                     @Override
                     protected StringProperty getEditorObservableValue() {
@@ -88,13 +87,13 @@ public class Editors {
                     }
                     
                     @Override
-                    public void initEditorValue() {                        
+                    public void initEditorValue() {                           
                         getEditor().setText(this.getPropertyValue());                        
                     }
                 };
     }
     
-    public static final InterfacePropertyEditor<?> createBooleanEditor(AbstractBeanPropertyItem propertyItem) {
+    public static final PropertyEditor<?> createBooleanEditor(PropertyItem propertyItem) {
         
         return new AbstractPropertyEditor<Boolean, CheckBox>(
                 propertyItem, 
@@ -113,7 +112,7 @@ public class Editors {
                 };
     }
     
-    public static final InterfacePropertyEditor<?> createEnumEditor(AbstractBeanPropertyItem propertyItem) {
+    public static final PropertyEditor<?> createEnumEditor(PropertyItem propertyItem) {
         Enum enumValue = (Enum) propertyItem.getValue();
         ObservableList<Enum> enumValueList = FXCollections.observableArrayList(enumValue.getClass().getEnumConstants());        
         
@@ -133,7 +132,7 @@ public class Editors {
                 };
     }
     
-    public static final InterfacePropertyEditor<?> createEffectEditor(AbstractBeanPropertyItem propertyItem) {
+    public static final PropertyEditor<?> createEffectEditor(PropertyItem propertyItem) {
         ObservableList<Effect> effectValueList = FXCollections.observableArrayList();        
         effectValueList.add(new DropShadow());
         effectValueList.add(new BoxBlur());

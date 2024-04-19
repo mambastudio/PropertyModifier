@@ -11,6 +11,6 @@ package propertymodifier.editors.base;
  * @param <P>
  * @param <E>
  */
-public class InterfacePropertySheet<P extends AbstractBeanPropertyItem, E extends InterfacePropertyEditor> {
+public interface PropertySheet<P extends PropertyItem, E extends PropertyEditor> {
     
 }

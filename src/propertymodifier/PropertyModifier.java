@@ -10,9 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import propertymodifier.beans.BeanPropertySheet;
-import propertymodifier.beans.BeanPropertyUtility;
-import propertymodifier.editors.factory.DefaultEditorFactory;
-import propertymodifier.editors.base.AbstractBeanPropertyItem;
+import propertymodifier.beans.DefaultBeanExtractor;
+import propertymodifier.beans.DefaultBeanItem;
+import propertymodifier.beans.DefaultEditorList;
+import propertymodifier.editors.base.PropertyItem;
 
 /**
  *
@@ -29,12 +30,9 @@ public class PropertyModifier extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SimpleShape2D shape = new SimpleShape2D();
-        
-        ObservableList<AbstractBeanPropertyItem> properties = BeanPropertyUtility.getProperties(shape, ()-> {});
-        BeanPropertySheet propertySheet = new BeanPropertySheet();                
-        propertySheet.setFactory(new DefaultEditorFactory());
-        propertySheet.init(properties);
+        Person shape = new Person();        
+        BeanPropertySheet propertySheet = new BeanPropertySheet(new DefaultBeanExtractor(), new DefaultEditorList());   
+        propertySheet.init(shape);
         
          //complete launch of ui
         Scene scene = new Scene(propertySheet);
