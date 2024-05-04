@@ -1,19 +1,19 @@
+package propertymodifier.beans;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package propertymodifier.beans;
+
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import propertymodifier.editors.base.PropertyEditor;
@@ -32,12 +32,21 @@ public class BeanPropertySheet<P extends PropertyItem, E extends PropertyEditor>
     private PropertyExtractor<P> propertyExtractor;
     private static final int MIN_COLUMN_WIDTH = 60;
     private static final int MIN_ROW_HEIGHT = 25;
+    private final BiConsumer<Label, Node> labelNodeConsume;
     
     public BeanPropertySheet(PropertyExtractor<P> propertyExtractor, Callback<P, E> propertyEditorFactory)
+    {         
+       this(propertyExtractor, propertyEditorFactory, null);
+    }
+    
+    public BeanPropertySheet(PropertyExtractor<P> propertyExtractor, 
+                             Callback<P, E> propertyEditorFactory,
+                             BiConsumer<Label, Node> labelNodeConsume)
     {         
        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
        this.propertyExtractor = propertyExtractor;
        this.propertyEditorFactory = propertyEditorFactory;   
+       this.labelNodeConsume = labelNodeConsume;
     }
     
     public final void init(Object object)
@@ -93,6 +102,12 @@ public class BeanPropertySheet<P extends PropertyItem, E extends PropertyEditor>
                     label.setLabelFor(editor);               
                     add(editor, 1, row);
                     GridPane.setHgrow(editor, Priority.ALWAYS);
+                    
+                    if(labelNodeConsume != null)
+                    {
+                        
+                        labelNodeConsume.accept(label, editor);
+                    }
                     
                     //TODO add support for recursive properties                
                    

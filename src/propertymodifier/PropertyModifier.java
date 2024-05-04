@@ -6,14 +6,11 @@
 package propertymodifier;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import propertymodifier.beans.BeanPropertySheet;
 import propertymodifier.beans.DefaultBeanExtractor;
-import propertymodifier.beans.DefaultBeanItem;
 import propertymodifier.beans.DefaultEditorList;
-import propertymodifier.editors.base.PropertyItem;
 
 /**
  *
